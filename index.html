@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Will You Be My Valentine? 💕</title>
+    <title>Will You Be My Valentine? Issa yess or no Anzaaa!! 💕</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -548,7 +548,7 @@
                     <div className="question-container">
                         <div className="doodle-container">
                             <div className="doodle-placeholder">💑</div>
-                            {/* Replace with: <video className="doodle-video" autoPlay loop muted><source src="your-doodle.mp4" type="video/mp4" /></video> */}
+                            <video className="doodle-video" autoPlay loop muted><source src="your-doodle.mp4" type="video/mp4" /></video>
                         </div>
                         <div className="hearts">💕 💖 💕</div>
                         <h1 className="question-title">
@@ -581,9 +581,10 @@
                 <div className="page story-page">
                     <div className="story-container">
                         <div className="video-container">
-                            <div className="video-placeholder">
-                                <p>🎥 Our Story Video<br/>
-                                (Replace this with your video element)</p>
+                            <div className="video-placeholder">💑</div>
+                                <video className="doodle-video" autoPlay loop muted><source src="your-doodle.mp4" type="video/mp4" /></video>
+                                <p>🎥 Our Story Video shall be placed here <br/>
+                                ()</p>
                             </div>
                             {/* Replace with: <video controls style={{width: '100%', borderRadius: '15px'}}><source src="your-story-video.mp4" type="video/mp4" /></video> */}
                         </div>
@@ -607,7 +608,7 @@
                                 <br/><br/>
                                 But here we are.
                                 <br/><br/>
-                                You're funny, you're beautiful (yes, even those butter fingers 
+                                You're funny, you're beautiful (yes, even those butter and lets not fingers 
                                 and sexy toes 😏), you're loving. You make me want to be better,
                                 to match your energy, to be worthy of the space you're giving me 
                                 in your life.
@@ -656,7 +657,7 @@
                 e.preventDefault();
                 if (formData.agreeToTerms) {
                     // Create WhatsApp message
-                    const message = `💕 VALENTINE'S CONTRACT SIGNED! 💕
+                    const message = `💕 VALENTINE'S CONTRACT SIGNED! Go Back and read Full contract. 💕
 
 📝 Full Name: ${formData.fullName}
 
@@ -1032,4 +1033,5 @@ Signed with love on ${new Date().toLocaleDateString()} 💝`;
         ReactDOM.render(<App />, document.getElementById('root'));
     </script>
 </body>
+
 </html>
