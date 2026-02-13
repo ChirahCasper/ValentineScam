@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine? 💕</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            overflow-x: hidden;
+        }
+
+        #root {
+            min-height: 100vh;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Page 1 Styles */
+        .question-page {
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe5f0 50%, #ffd4e8 100%);
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .floating-hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            animation: float 10s infinite;
+            opacity: 0.6;
+        }
+
+        .heart:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .heart:nth-child(2) { left: 30%; animation-delay: 2s; }
+        .heart:nth-child(3) { left: 50%; animation-delay: 4s; }
+        .heart:nth-child(4) { left: 70%; animation-delay: 1s; }
+        .heart:nth-child(5) { left: 90%; animation-delay: 3s; }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .question-container {
+            text-align: center;
+            max-width: 700px;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .doodle-container {
+            margin-bottom: 20px;
+        }
+
+        .doodle-video {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 5px solid #ff6b9d;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
+        }
+
+        .doodle-placeholder {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 5px solid #ff6b9d;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            font-size: 4rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .question-title {
+            font-size: 2.5rem;
+            color: #d63384;
+            margin: 20px 0;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .hearts {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        .buttons-container {
+            position: relative;
+            height: 200px;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff1744 100%);
+            color: white;
+            margin-right: 20px;
+            animation: wiggle 1s infinite;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+
+        .no-btn {
+            background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%);
+            color: #666;
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+
+        .funny-text {
+            margin-top: 20px;
+            color: #ff6b9d;
+            font-size: 1.1rem;
+            font-weight: bold;
+            min-height: 30px;
+        }
+
+        /* Page 2 Styles */
+        .story-page {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+        }
+
+        .story-container {
+            max-width: 1000px;
+            width: 100%;
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .video-container {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-placeholder {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .message-container {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .message-title {
+            font-size: 2.5rem;
+            color: #5e35b1;
+            margin-bottom: 1.5rem;
+        }
+
+        .message-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #424242;
+            margin-bottom: 2rem;
+        }
+
+        .continue-btn {
+            background: linear-gradient(135deg, #5e35b1 0%, #7e57c2 100%);
+            color: white;
+        }
+
+        /* Page 3 - Contract Styles */
+        .contract-page {
+            background: linear-gradient(135deg, #fff9e6 0%, #ffe8b3 50%, #ffd699 100%);
+        }
+
+        .contract-container {
+            max-width: 700px;
+            width: 100%;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            border: 3px dashed #ff9800;
+        }
+
+        .contract-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .contract-title {
+            font-size: 2.5rem;
+            color: #ff6f00;
+            margin-bottom: 10px;
+        }
+
+        .contract-subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            font-style: italic;
+        }
+
+        .contract-seal {
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff1744 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.4);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 1rem;
+            border: 2px solid #ffb74d;
+            border-radius: 10px;
+            transition: border-color 0.3s;
+            font-family: 'Georgia', serif;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #ff6b9d;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .checkbox-input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .checkbox-label {
+            font-size: 1rem;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .terms-box {
+            background: #fff9e6;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #ff9800;
+        }
+
+        .terms-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff1744 100%);
+            color: white;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.5);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Page 4 - Final Message */
+        .valentine-page {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 50%, #ffccbc 100%);
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .valentine-container {
+            max-width: 700px;
+            background: white;
+            padding: 60px 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .valentine-title {
+            font-size: 3rem;
+            color: #ff6b6b;
+            margin-bottom: 2rem;
+            animation: heartBeat 1.5s infinite;
+        }
+
+        .valentine-message {
+            font-size: 1.3rem;
+            line-height: 2;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        .emoji {
+            font-size: 4rem;
+            margin: 20px 0;
+            display: inline-block;
+            animation: spin 3s infinite;
+        }
+
+        @keyframes spin {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes heartBeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            10%, 30% {
+                transform: scale(1.1);
+            }
+            20%, 40% {
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .question-title {
+                font-size: 2rem;
+            }
+
+            .message-title, .valentine-title, .contract-title {
+                font-size: 2rem;
+            }
+
+            .story-container {
+                flex-direction: column;
+            }
+
+            .valentine-container, .contract-container, .question-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Page 1: The Question with Doodle
+        function QuestionPage({ onYes }) {
+            const [noButtonStyle, setNoButtonStyle] = useState({
+                left: '50%',
+                top: '50%',
+                transform: 'translate(-50%, -50%)'
+            });
+            const [attempts, setAttempts] = useState(0);
+            const [funnyText, setFunnyText] = useState('');
+            const containerRef = useRef(null);
+
+            const funnyMessages = [
+                "Oops! The button ran away! 🏃‍♀️",
+                "Nice try! But not today! 😏",
+                "Nope! That button is slippery! 🧈",
+                "The 'No' button is playing hard to get! 💨",
+                "Catch me if you can! 🎯",
+                "You really thought! 😂",
+                "This button has a mind of its own! 🧠",
+                "Almost! But not quite! 🎪",
+                "The universe says YES only! ✨",
+                "Give up yet? Just say YES! 💕"
+            ];
+
+            const moveNoButton = () => {
+                if (containerRef.current) {
+                    const container = containerRef.current;
+                    const containerRect = container.getBoundingClientRect();
+                    
+                    const randomX = Math.random() * (containerRect.width - 150);
+                    const randomY = Math.random() * (containerRect.height - 60);
+                    
+                    setNoButtonStyle({
+                        left: `${randomX}px`,
+                        top: `${randomY}px`,
+                        transform: 'translate(0, 0)'
+                    });
+
+                    const newAttempt = attempts + 1;
+                    setAttempts(newAttempt);
+                    setFunnyText(funnyMessages[Math.min(newAttempt - 1, funnyMessages.length - 1)]);
+                }
+            };
+
+            return (
+                <div className="page question-page">
+                    <div className="floating-hearts">
+                        <div className="heart">💕</div>
+                        <div className="heart">💖</div>
+                        <div className="heart">💝</div>
+                        <div className="heart">💗</div>
+                        <div className="heart">💓</div>
+                    </div>
+                    <div className="question-container">
+                        <div className="doodle-container">
+                            <div className="doodle-placeholder">💑</div>
+                            {/* Replace with: <video className="doodle-video" autoPlay loop muted><source src="your-doodle.mp4" type="video/mp4" /></video> */}
+                        </div>
+                        <div className="hearts">💕 💖 💕</div>
+                        <h1 className="question-title">
+                            Will You Be My Valentine?
+                        </h1>
+                        <p className="subtitle">This is the most important question ever! 🌹</p>
+                        <div className="buttons-container" ref={containerRef}>
+                            <button className="btn yes-btn" onClick={onYes}>
+                                YES! 💗
+                            </button>
+                            <button 
+                                className="btn no-btn" 
+                                style={noButtonStyle}
+                                onMouseEnter={moveNoButton}
+                                onTouchStart={moveNoButton}
+                                onClick={moveNoButton}
+                            >
+                                No
+                            </button>
+                        </div>
+                        <div className="funny-text">{funnyText}</div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Page 2: The Story
+        function StoryPage({ onContinue }) {
+            return (
+                <div className="page story-page">
+                    <div className="story-container">
+                        <div className="video-container">
+                            <div className="video-placeholder">
+                                <p>🎥 Our Story Video<br/>
+                                (Replace this with your video element)</p>
+                            </div>
+                            {/* Replace with: <video controls style={{width: '100%', borderRadius: '15px'}}><source src="your-story-video.mp4" type="video/mp4" /></video> */}
+                        </div>
+                        <div className="message-container">
+                            <h2 className="message-title">Our Unexpected Beginning ✨</h2>
+                            <p className="message-text">
+                                I wasn't looking for you. Hell, I wasn't looking for anyone.
+                                But then you happened - completely out of nowhere, 
+                                in the most unexpected way possible.
+                                <br/><br/>
+                                And suddenly, everything just... shifted.
+                                <br/><br/>
+                                Your humor caught me off guard. The way you're so genuinely kind,
+                                so caring, such a good listener - it's rare. Really rare.
+                                The effort you put into everything, the way you appreciate 
+                                the little things, how you see me... it's overwhelming in the best way.
+                                <br/><br/>
+                                You're independent. Intentional. You know what you want.
+                                And if I'm being honest? That scares the fuck out of me.
+                                Because someone like you could choose anyone, anything.
+                                <br/><br/>
+                                But here we are.
+                                <br/><br/>
+                                You're funny, you're beautiful (yes, even those butter fingers 
+                                and sexy toes 😏), you're loving. You make me want to be better,
+                                to match your energy, to be worthy of the space you're giving me 
+                                in your life.
+                                <br/><br/>
+                                This is all so new. So unexpected. So perfectly imperfect.
+                                And I wouldn't change a single thing about how we got here.
+                            </p>
+                            <button className="btn continue-btn" onClick={onContinue}>
+                                Continue 💜
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Page 3: The Contract
+        function ContractPage({ onSubmit }) {
+            const [formData, setFormData] = useState({
+                fullName: '',
+                nicknameForMe: '',
+                superpower: '',
+                biggestFear: '',
+                perfectSunday: '',
+                loveLanguage: '',
+                dealbreaker: '',
+                sillySecret: '',
+                butterFingersMoment: '',
+                scaryThing: '',
+                kindnessExample: '',
+                makesMeLaugh: '',
+                dreamDay: '',
+                somethingUnasked: '',
+                agreeToTerms: false
+            });
+
+            const handleChange = (e) => {
+                const { name, value, type, checked } = e.target;
+                setFormData(prev => ({
+                    ...prev,
+                    [name]: type === 'checkbox' ? checked : value
+                }));
+            };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (formData.agreeToTerms) {
+                    // Create WhatsApp message
+                    const message = `💕 VALENTINE'S CONTRACT SIGNED! 💕
+
+📝 Full Name: ${formData.fullName}
+
+🌟 Something I'm proud of: ${formData.superpower}
+
+😱 My biggest irrational fear: ${formData.biggestFear}
+
+☀️ My perfect Sunday looks like: ${formData.perfectSunday}
+
+💖 My love language is: ${formData.loveLanguage}
+
+🚫 One dealbreaker for me: ${formData.dealbreaker}
+
+🤫 A silly secret about me: ${formData.sillySecret}
+
+🧈 My most recent butter fingers moment: ${formData.butterFingersMoment}
+
+😰 Something that scares me about us: ${formData.scaryThing}
+
+🌟 A recent time I showed kindness: ${formData.kindnessExample}
+
+😂 What makes me laugh the most: ${formData.makesMeLaugh}
+
+⏰ My dream 24 hours with you: ${formData.dreamDay}
+
+💭 Something I want you to know: ${formData.somethingUnasked}
+
+💝 Nickname I'm giving you: ${formData.nicknameForMe}
+
+Status: ✅ OFFICIALLY YOUR VALENTINE!
+
+Signed with love on ${new Date().toLocaleDateString()} 💝`;
+
+                    // Replace with  WhatsApp number (including country code, no + or spaces)
+                    const whatsappNumber = '254799802907'; // REPLACE THIS WITH  NUMBER 
+                    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+                    
+                    // Open WhatsApp
+                    window.open(whatsappURL, '_blank');
+                    
+                    // Move to final page
+                    setTimeout(() => onSubmit(formData), 1000);
+                }
+            };
+
+            const isFormValid = formData.fullName && formData.nicknameForMe && 
+                              formData.superpower && formData.biggestFear && 
+                              formData.perfectSunday && formData.loveLanguage &&
+                              formData.dealbreaker && formData.sillySecret &&
+                              formData.butterFingersMoment && formData.scaryThing &&
+                              formData.kindnessExample && formData.makesMeLaugh &&
+                              formData.dreamDay && formData.somethingUnasked &&
+                              formData.agreeToTerms;
+
+            return (
+                <div className="page contract-page">
+                    <div className="contract-container">
+                        <div className="contract-header">
+                            <h1 className="contract-title">💝 Official Valentine's Contract 💝</h1>
+                            <p className="contract-subtitle">A legally binding agreement of love and awesomeness</p>
+                            <div className="contract-seal">💕</div>
+                        </div>
+
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-group">
+                                <label className="form-label">Your Full Name (the pretty one with the sexy toes 😏) 📝</label>
+                                <input 
+                                    type="text" 
+                                    name="fullName"
+                                    className="form-input" 
+                                    placeholder="Enter your lovely name..."
+                                    value={formData.fullName}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">What nickname are you giving me? 😊</label>
+                                <input 
+                                    type="text" 
+                                    name="nicknameForMe"
+                                    className="form-input" 
+                                    placeholder="Something cute, funny, or embarrassing..."
+                                    value={formData.nicknameForMe}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">What's something you're really proud of but rarely talk about? 🌟</label>
+                                <input 
+                                    type="text" 
+                                    name="superpower"
+                                    className="form-input" 
+                                    placeholder="An achievement, a skill, something you overcame..."
+                                    value={formData.superpower}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">What's your biggest irrational fear? 😱</label>
+                                <input 
+                                    type="text" 
+                                    name="biggestFear"
+                                    className="form-input" 
+                                    placeholder="Be honest... we all have weird fears!"
+                                    value={formData.biggestFear}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">Describe your perfect lazy Sunday ☀️</label>
+                                <input 
+                                    type="text" 
+                                    name="perfectSunday"
+                                    className="form-input" 
+                                    placeholder="Brunch? Netflix? Adventures?"
+                                    value={formData.perfectSunday}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">How do you like to receive love? 💖</label>
+                                <input 
+                                    type="text" 
+                                    name="loveLanguage"
+                                    className="form-input" 
+                                    placeholder="Words, hugs, gifts, time together, acts of service?"
+                                    value={formData.loveLanguage}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">What's a dealbreaker for you in a relationship? 🚫</label>
+                                <input 
+                                    type="text" 
+                                    name="dealbreaker"
+                                    className="form-input" 
+                                    placeholder="Let me know what to avoid!"
+                                    value={formData.dealbreaker}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">Tell me a silly secret about yourself 🤫</label>
+                                <input 
+                                    type="text" 
+                                    name="sillySecret"
+                                    className="form-input" 
+                                    placeholder="Something that makes you, YOU!"
+                                    value={formData.sillySecret}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">Most recent butter fingers moment? 🧈😂</label>
+                                <input 
+                                    type="text" 
+                                    name="butterFingersMoment"
+                                    className="form-input" 
+                                    placeholder="What did you drop this time?"
+                                    value={formData.butterFingersMoment}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">What scares you about us/this? 😰 (Be real with me)</label>
+                                <input 
+                                    type="text" 
+                                    name="scaryThing"
+                                    className="form-input" 
+                                    placeholder="Vulnerability is scary but beautiful..."
+                                    value={formData.scaryThing}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">Tell me about a recent time you showed kindness 🌟</label>
+                                <input 
+                                    type="text" 
+                                    name="kindnessExample"
+                                    className="form-input" 
+                                    placeholder="I know you're caring, show me an example!"
+                                    value={formData.kindnessExample}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">What makes you laugh the most? 😂</label>
+                                <input 
+                                    type="text" 
+                                    name="makesMeLaugh"
+                                    className="form-input" 
+                                    placeholder="Memes? Dad jokes? Something else?"
+                                    value={formData.makesMeLaugh}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">If we had 24 hours with no responsibilities, how would you want to spend it? ⏰</label>
+                                <input 
+                                    type="text" 
+                                    name="dreamDay"
+                                    className="form-input" 
+                                    placeholder="Adventure? Cozy day in? Road trip?"
+                                    value={formData.dreamDay}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label className="form-label">What's one thing you want me to know about you that I might not ask? 💭</label>
+                                <input 
+                                    type="text" 
+                                    name="somethingUnasked"
+                                    className="form-input" 
+                                    placeholder="Something important, deep, or just interesting..."
+                                    value={formData.somethingUnasked}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="terms-box">
+                                <p className="terms-text">
+                                    <strong>Terms & Conditions of Being Your Valentine:</strong><br/>
+                                    • I acknowledge that you are funny AF and I'll laugh at your jokes 😂<br/>
+                                    • I appreciate your kindness, caring nature, and how you listen 💕<br/>
+                                    • I recognize the effort you put in and I'll match that energy 🌟<br/>
+                                    • I promise not to make fun of your butter fingers (too much) 🧈<br/>
+                                    • I understand your independence and intentionality (even though it's lowkey scary) 😰<br/>
+                                    • I will appreciate you as much as you appreciate me 🙏<br/>
+                                    • I commit to unlimited cuddles, adventures, and inside jokes 💑<br/>
+                                    • I accept those sexy toes as part of the package 😏👣<br/>
+                                    • I promise to get to know the real you, layer by layer 🎁<br/>
+                                    • I will be your valentine today and always 💝
+                                </p>
+                            </div>
+
+                            <div className="checkbox-group">
+                                <input 
+                                    type="checkbox" 
+                                    name="agreeToTerms"
+                                    id="agreeToTerms"
+                                    className="checkbox-input"
+                                    checked={formData.agreeToTerms}
+                                    onChange={handleChange}
+                                    required
+                                />
+                                <label htmlFor="agreeToTerms" className="checkbox-label">
+                                    I agree to all terms and accept being your Valentine! ✨
+                                </label>
+                            </div>
+
+                            <button 
+                                type="submit" 
+                                className="submit-btn"
+                                disabled={!isFormValid}
+                            >
+                                Sign & Send Contract to WhatsApp 💌
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            );
+        }
+
+        // Page 4: Final Valentine's Message
+        function ValentinePage({ formData }) {
+            return (
+                <div className="page valentine-page">
+                    <div className="valentine-container">
+                        <h1 className="valentine-title">Happy Valentine's Day! 💕</h1>
+                        <div className="emoji">🌹</div>
+                        <p className="valentine-message">
+                            <strong>{formData?.fullName || 'My Love'},</strong>
+                            <br/><br/>
+                            Thank you for saying YES and making this the best Valentine's Day ever!
+                            <br/><br/>
+                            I can't believe the funny, kind, caring, loving, independent, 
+                            intentional, beautiful human (with admittedly butterfingers 😂) 
+                            agreed to be my Valentine!
+                            <br/><br/>
+                            {formData?.nicknameForMe && (
+                                <>I love that you're calling me <strong>{formData.nicknameForMe}</strong>! 
+                                It's perfect.<br/><br/></>
+                            )}
+                            I promise to appreciate you the way you appreciate me.
+                            To listen like you listen. To put in effort like you do.
+                            And maybe, just maybe, help you not drop things as much. 🧈
+                            <br/><br/>
+                            {formData?.scaryThing && (
+                                <>I hear you on what scares you. It's scary for me too. 
+                                But I think the best things in life are a little scary, right?<br/><br/></>
+                            )}
+                            Your independence and intentionality? Yeah, they scare me.
+                            But they're also what make you... YOU. And I'm here for all of it.
+                            <br/><br/>
+                            Let's keep getting to know each other, one conversation at a time.
+                            {formData?.perfectSunday && (
+                                <> Maybe starting with that perfect Sunday: {formData.perfectSunday}?</>
+                            )}
+                            <br/><br/>
+                            <strong style={{color: '#ff6b6b', fontSize: '1.5rem'}}>
+                                You mean everything to me. ❤️
+                            </strong>
+                        </p>
+                        <div className="emoji">💝</div>
+                        <p style={{fontSize: '1.1rem', color: '#666', marginTop: '20px'}}>
+                            Contract successfully filed! 📋✅<br/>
+                            {formData?.makesMeLaugh && (
+                                <span style={{fontSize: '0.9rem', fontStyle: 'italic'}}>
+                                    (P.S. Now I know what makes you laugh - {formData.makesMeLaugh} 😊)
+                                </span>
+                            )}
+                        </p>
+                    </div>
+                </div>
+            );
+        }
+
+        // Main App
+        function App() {
+            const [currentPage, setCurrentPage] = useState(1);
+            const [contractData, setContractData] = useState(null);
+
+            const handleContractSubmit = (data) => {
+                setContractData(data);
+                setCurrentPage(4);
+            };
+
+            return (
+                <div>
+                    {currentPage === 1 && (
+                        <QuestionPage onYes={() => setCurrentPage(2)} />
+                    )}
+                    {currentPage === 2 && (
+                        <StoryPage onContinue={() => setCurrentPage(3)} />
+                    )}
+                    {currentPage === 3 && (
+                        <ContractPage onSubmit={handleContractSubmit} />
+                    )}
+                    {currentPage === 4 && (
+                        <ValentinePage formData={contractData} />
+                    )}
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
