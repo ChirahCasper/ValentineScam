@@ -547,8 +547,14 @@
                     </div>
                     <div className="question-container">
                         <div className="doodle-container">
-                            <div className="doodle-placeholder">💑</div>
-                            <video className="doodle-video" autoPlay loop muted><source src="your-doodle.mp4" type="video/mp4" /></video>
+                            
+                            <video className="doodle-video" autoPlay loop muted playsInline>
+                                <source src="doodle.mp4" type="video/mp4" />
+                                Your browser does not support the video tag.
+                            </video>
+                            
+                            
+
                         </div>
                         <div className="hearts">💕 💖 💕</div>
                         <h1 className="question-title">
@@ -581,12 +587,11 @@
                 <div className="page story-page">
                     <div className="story-container">
                         <div className="video-container">
-                            <div className="video-placeholder">💑</div>
-                                <video className="doodle-video" autoPlay loop muted><source src="your-doodle.mp4" type="video/mp4" /></video>
-                                <p>🎥 Our Story Video shall be placed here <br/>
-                                ()</p>
-                            </div>
-                            {/* Replace with: <video controls style={{width: '100%', borderRadius: '15px'}}><source src="your-story-video.mp4" type="video/mp4" /></video> */}
+                             
+                            <video muted style={{width: '100%', borderRadius: '15px'}} playsInline>
+                                <source src="story.mp4" type="video/mp4" />
+                                Your browser does not support the video tag.
+                            </video>
                         </div>
                         <div className="message-container">
                             <h2 className="message-title">Our Unexpected Beginning ✨</h2>
@@ -608,7 +613,7 @@
                                 <br/><br/>
                                 But here we are.
                                 <br/><br/>
-                                You're funny, you're beautiful (yes, even those butter and lets not fingers 
+                                You're funny, you're beautiful (yes, even those butter fingers 
                                 and sexy toes 😏), you're loving. You make me want to be better,
                                 to match your energy, to be worthy of the space you're giving me 
                                 in your life.
@@ -687,12 +692,12 @@
 
 💝 Nickname I'm giving you: ${formData.nicknameForMe}
 
-Status: ✅ OFFICIALLY YOUR VALENTINE!
+Status: ✅ OFFICIALLY YOUR VALENTINE GO BACK TO READ VALENTINES MESSAGE!
 
 Signed with love on ${new Date().toLocaleDateString()} 💝`;
 
-                    // Replace with  WhatsApp number (including country code, no + or spaces)
-                    const whatsappNumber = '254799802907'; // REPLACE THIS WITH  NUMBER 
+                    // Replace with WhatsApp number (including country code, no + or spaces)
+                    const whatsappNumber = '254799802907'; // REPLACE THIS WITH YOUR NUMBER 
                     const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
                     
                     // Open WhatsApp
@@ -1033,5 +1038,4 @@ Signed with love on ${new Date().toLocaleDateString()} 💝`;
         ReactDOM.render(<App />, document.getElementById('root'));
     </script>
 </body>
-
 </html>
